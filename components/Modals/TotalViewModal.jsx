@@ -1,7 +1,8 @@
 import TotalViewModalBody from "../ModalBodies/TotalViewModalBody";
 
 const TotalViewModal = (props) => {
-    const { TViewToggle, setTViewToggle } = props;
+    const { updationList,TViewToggle, setTViewToggle } = props;
+    console.log(updationList)
     return (
         <div>
             {/* <!-- Main modal --> */}
@@ -17,9 +18,17 @@ const TotalViewModal = (props) => {
                         </div>
                         {/* <!-- Modal body --> */}
                         <div className="p-5 overflow-y-auto overflow-x-hidden max-h-[70vh]">
-                            <TotalViewModalBody />
-                            <TotalViewModalBody />
-                            <TotalViewModalBody />
+                            {
+                                updationList.map((upList)=>(
+                                    <TotalViewModalBody 
+                                        key={upList._id}
+                                        description={upList.description}
+                                        operation={upList.operation}
+                                        amount = {upList.maximum}
+                                    />
+
+                                ))
+                            }
 
                             <div className="flex justify-center pt-2 pb-1">
                                 <button type='button' onClick={() => setTViewToggle((TViewToggle) => !TViewToggle)} className="relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group" >

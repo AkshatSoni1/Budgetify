@@ -23,6 +23,7 @@ const AppState = (props) => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
     const [user, setUser] = useState(null)
     const [count, setCount] = useState(0)
+    const [expCount, setExpCount] = useState(0)
     const [mode, setMode] = useState('light')
 
     // budget
@@ -72,6 +73,8 @@ const AppState = (props) => {
         setBudgetID,
         budgetName,
         setBudgetName,
+        expCount,
+        setExpCount,
         mode,
         setMode
     }}>

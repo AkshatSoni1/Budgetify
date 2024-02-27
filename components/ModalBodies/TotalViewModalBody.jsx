@@ -1,13 +1,14 @@
-
-const TotalViewModalBody = () => {
+import { currencyFormatter } from "@/utils/currencyFormat";
+const TotalViewModalBody = (props) => {
+    const {description, operation, amount} = props;
     return (
 
         <div className="py-2">
             {/* Expenses list */}
             <div className="flex items-center">
-                <h1 className="vmtext flex-1 ">abc</h1>
-                <h1 className="border-b font-semibold text-red-500 mx-4">[Credited]</h1>
-                <h1 className="bg-yellow-200 px-2 py-1 rounded-md shadow-sm">₹50</h1>
+                <h1 className="vmtext flex-1 ">{description}</h1>
+                <h1 className="border-b font-semibold text-red-500 mx-4">{operation}</h1>
+                <h1 className="bg-yellow-200 px-2 py-1 rounded-md shadow-sm">{currencyFormatter.format(amount)}</h1>
             </div>
 
         </div>

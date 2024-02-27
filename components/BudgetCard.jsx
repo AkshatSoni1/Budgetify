@@ -1,11 +1,11 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { currencyFormatter } from "@/utils/currencyFormat"
 import ViewModal from "./Modals/ViewModal";
 import AddExpenseModal from "./Modals/AddExpenseModal";
 
 const BudgetCard = (props) => {
-  const { id, setAddExpenseToggle, name, amount, viewToggle, setViewToggle, setBudgetID, setBudgetName } = props;
+  const { id, setAddExpenseToggle, name, amount, setViewToggle, setBudgetID, setBudgetName, expCount } = props;
   
   const [expensesList, setExpensesList] = useState([])
 
@@ -15,10 +15,7 @@ const BudgetCard = (props) => {
     setAddExpenseToggle((addExpenseToggle) => !addExpenseToggle)
   }
 
-  const handleViewClick = async () => {
-    setBudgetName(name)
-    setBudgetID(id)
-
+  const fetchExpenses = async() => {
     try {
       const res = await fetch(`/api/expense?budgetId=${id}`)
       if(res.ok){
@@ -26,9 +23,21 @@ const BudgetCard = (props) => {
         setExpensesList(response);
       }
     } catch (error) {
-      console.log(error)      
+      console.log(error)
     }
- 
+  }
+
+  useEffect(() => {
+    fetchExpenses()
+  }, [expCount])
+  
+
+  const handleViewClick = async () => {
+    setBudgetName(name)
+    setBudgetID(id)
+
+    fetchExpenses()
+
     setViewToggle((viewToggle) => !viewToggle)
   }
 

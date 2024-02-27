@@ -1,6 +1,46 @@
+"use client"
+
+import { AppContext } from "@/context/AppContext/page";
+import { useContext, useEffect, useState } from "react";
 
 const TotalModal = (props) => {
     const { totalToggle, setTotalToggle } = props;
+    const {user,month, year} = useContext(AppContext)
+
+    const [description, setDescription] = useState('')
+    const [operation, setOperation] = useState('Credited')
+    const [amount, setAmount] = useState('')
+
+    const handleSelectChange = (e) => {
+        setOperation(e.target.value)
+    }
+
+    const handleClick = async() => {
+        try {
+            const res = await fetch('/api/updation',{
+                method:'POST',
+                body:JSON.stringify({
+                    creator:user,
+                    description: description,
+                    operation: operation,
+                    maximum: amount,
+                    month: month,
+                    year: year
+                })
+            })
+
+            if(res.ok){
+                console.log('Updation added')
+            }
+        } catch (error) {
+            console.log('Cannot add updation')
+        }
+        setTotalToggle((totalToggle) => !totalToggle)
+    }
+
+    
+    
+
     return (
         <div>
             {/* <!-- Main modal --> */}
@@ -23,24 +63,23 @@ const TotalModal = (props) => {
                         {/* <!-- Modal body --> */}
                         <div className="p-4 md:p-5">
                             <div className="space-y-4">
-                                {/* Expenses list */}
                         <div>
                             <label htmlFor="description" className="block mb-2 text-md font-medium text-gray-900 light:text-white">Description</label>
-                            <input type="text" name="description" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
+                            <input value={description} onChange={(e)=> setDescription(e.target.value)} type="text" name="description" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
                         </div>
                                 <div className="">
-                                    <select className="mb-4 w-full bg-transparent p-2 hover:cursor-pointer border-b border-black">
-                                        <option value={0}>Credit</option>
-                                        <option value={1}>Debit</option>
+                                    <select onChange={handleSelectChange} className="mb-4 w-full bg-transparent p-2 hover:cursor-pointer border-b border-black">
+                                        <option value={"Credited"}>Credit</option>
+                                        <option value={"Debited"}>Debit</option>
                                     </select>
                                 </div>
                                 <div className="flex flex-col">
                                 <label htmlFor="number" className="block mb-2 text-md font-medium text-gray-900 light:text-white">Amount</label>
-                                    <input type="number" name="number" id="number" placeholder="" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
+                                    <input value={amount} onChange={(e)=> setAmount(e.target.value)} type="number" name="number" id="number" placeholder="" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
                                 </div>
 
                                 <div className="flex justify-center pt-2 pb-1">
-                                    <button type='button' onClick={() => setTotalToggle((totalToggle) => !totalToggle)} className="relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group" >
+                                    <button type='button' onClick={handleClick} className="relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group" >
                                         <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-gray-600 group-hover:w-full ease"></span>
                                         <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-gray-600 group-hover:w-full ease"></span>
                                         <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>

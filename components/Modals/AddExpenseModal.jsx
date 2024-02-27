@@ -26,6 +26,37 @@ const AddExpenseModal = () => {
       setAmount('')
 
       if(res.ok){
+
+        try {
+          const res1 = await fetch(`/api/budget/${budgetID}`);
+
+          if(res1.ok){
+            const response = await res1.json();
+            // console.log("RES", response)
+
+            try {
+              // console.log("SB",response)
+              const res2 = await fetch(`/api/budget/${budgetID}`,{
+                method:'PATCH',
+                body: JSON.stringify({
+                  creator: response.creator,
+                  name: response.name,
+                  amount: response.amount + + amount,
+                  month: response.month,
+                  year: response.year,
+                })
+              })
+    
+              if(res2.ok){
+                console.log("Updated")
+              }
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        } catch (error) {
+          console.log(error)
+        }
         setCount((count)=>count+1)
         console.log('Expense added!')
       }
