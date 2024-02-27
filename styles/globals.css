@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    scroll-behavior: smooth;
+}
+.vmtext{
+    overflow-wrap: anywhere;
+}
+
+div::-webkit-scrollbar{
+    display: none;
+}
