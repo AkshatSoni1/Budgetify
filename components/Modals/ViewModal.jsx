@@ -5,7 +5,7 @@ import ViewModalBody from "../ModalBodies/ViewModalBody";
 import { AppContext } from "@/context/AppContext/page";
 
 const ViewModal = (props) => {
-    const { budgetID, budgetName, viewToggle, setViewToggle, setCount, setExpCount } = useContext(AppContext)
+    const { budgetID, budgetName, viewToggle, setViewToggle, setCount, setExpCount, user, month, year } = useContext(AppContext)
 
     const { viewId,expensesList } = props;
 
@@ -77,6 +77,9 @@ const ViewModal = (props) => {
                                             amount={exp.amount}
                                             setExpCount={setExpCount}
                                             setCount={setCount}
+                                            user={user}
+                                            month={month}
+                                            year={year}
                                         />
                                     ))
                                 }

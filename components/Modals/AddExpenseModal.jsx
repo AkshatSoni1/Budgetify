@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { AppContext } from "@/context/AppContext/page";
 
 const AddExpenseModal = () => {
-  const { addExpenseToggle, setAddExpenseToggle, budgetName, budgetID, setCount } = useContext(AppContext);
+  const { addExpenseToggle, setAddExpenseToggle, budgetName, budgetID, setCount, user, month, year } = useContext(AppContext);
 
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
@@ -54,6 +54,29 @@ const AddExpenseModal = () => {
               console.log(error)
             }
           }
+
+          const res3 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
+
+          if (res3.ok) {
+            const response = await res3.json();
+            try {
+                const res4 = await fetch('/api/totalexpense', {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        creator:response.creator,
+                        amount: response.amount + +amount,
+                        maximum: response.maximum,
+                        month: response.month,
+                        year: response.year
+                    })
+                })
+                if(res4.ok){
+                    console.log('Total expense limit updated')
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
         } catch (error) {
           console.log(error)
         }

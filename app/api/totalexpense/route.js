@@ -2,13 +2,14 @@ import TotalExpense from "@/models/totalexpense";
 import connectToDB from "@/utils/connectDB";
 
 export const POST = async(req)=> {
-    const {creator,maximum, month, year} = await req.json();
+    const {creator,amount,maximum, month, year} = await req.json();
 
     try {
         await connectToDB();
 
         const totexp = new TotalExpense({
             creator,
+            amount,
             maximum,
             month,
             year
@@ -36,6 +37,28 @@ export const GET = async(req) => {
 
         return new Response(JSON.stringify(totexp), {status:200})
     } catch (error) {
-        return new Response("Cannot fetch total expense");
+        return new Response("Cannot fetch total expense", {status:500});
+    }
+}
+
+export const PATCH = async(req) =>{
+    const {creator,amount,maximum, month, year} = await req.json();
+    try {
+        await connectToDB();
+
+        const result = await TotalExpense.findOneAndUpdate(
+            { creator, month, year },
+            {
+                creator,
+                amount,
+                maximum,
+                month,
+                year
+            }
+          );
+          await result.save();
+        return new Response('Successfully updated', {status:200})
+    } catch (error) {
+        return new Response('Cannot update',{status:500})
     }
 }

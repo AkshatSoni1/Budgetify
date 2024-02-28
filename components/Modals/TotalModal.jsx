@@ -4,8 +4,8 @@ import { AppContext } from "@/context/AppContext/page";
 import { useContext, useEffect, useState } from "react";
 
 const TotalModal = (props) => {
-    const { totalToggle, setTotalToggle } = props;
-    const {user,month, year} = useContext(AppContext)
+    const { totalToggle, setTotalToggle} = props;
+    const { user, month, year, setCount } = useContext(AppContext)
 
     const [description, setDescription] = useState('')
     const [operation, setOperation] = useState('Credited')
@@ -15,12 +15,12 @@ const TotalModal = (props) => {
         setOperation(e.target.value)
     }
 
-    const handleClick = async() => {
+    const handleClick = async () => {
         try {
-            const res = await fetch('/api/updation',{
-                method:'POST',
-                body:JSON.stringify({
-                    creator:user,
+            const res = await fetch('/api/updation', {
+                method: 'POST',
+                body: JSON.stringify({
+                    creator: user,
                     description: description,
                     operation: operation,
                     maximum: amount,
@@ -29,8 +29,42 @@ const TotalModal = (props) => {
                 })
             })
 
-            if(res.ok){
+            if (res.ok) {
                 console.log('Updation added')
+
+                setDescription('')
+                setAmount('')
+
+                const res1 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`)
+
+                if (res1.ok) {
+                    const response = await res1.json();
+                    let updateMaxi=0;
+                    if(operation === 'Credited'){
+                        updateMaxi = response.maximum - amount
+                    }
+                    else{
+                        updateMaxi = response.maximum + +amount
+                    }
+                    try {
+                        const res2 = await fetch('/api/totalexpense', {
+                            method: 'PATCH',
+                            body: JSON.stringify({
+                                creator:response.creator,
+                                amount: response.amount,
+                                maximum: updateMaxi,
+                                month: response.month,
+                                year: response.year
+                            })
+                        })
+                        if(res2.ok){
+                            setCount((count)=>count+1)
+                            console.log('Total expense limit updated')
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
             }
         } catch (error) {
             console.log('Cannot add updation')
@@ -38,8 +72,8 @@ const TotalModal = (props) => {
         setTotalToggle((totalToggle) => !totalToggle)
     }
 
-    
-    
+
+
 
     return (
         <div>
@@ -63,10 +97,10 @@ const TotalModal = (props) => {
                         {/* <!-- Modal body --> */}
                         <div className="p-4 md:p-5">
                             <div className="space-y-4">
-                        <div>
-                            <label htmlFor="description" className="block mb-2 text-md font-medium text-gray-900 light:text-white">Description</label>
-                            <input value={description} onChange={(e)=> setDescription(e.target.value)} type="text" name="description" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
-                        </div>
+                                <div>
+                                    <label htmlFor="description" className="block mb-2 text-md font-medium text-gray-900 light:text-white">Description</label>
+                                    <input value={description} onChange={(e) => setDescription(e.target.value)} type="text" name="description" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
+                                </div>
                                 <div className="">
                                     <select onChange={handleSelectChange} className="mb-4 w-full bg-transparent p-2 hover:cursor-pointer border-b border-black">
                                         <option value={"Credited"}>Credit</option>
@@ -74,8 +108,8 @@ const TotalModal = (props) => {
                                     </select>
                                 </div>
                                 <div className="flex flex-col">
-                                <label htmlFor="number" className="block mb-2 text-md font-medium text-gray-900 light:text-white">Amount</label>
-                                    <input value={amount} onChange={(e)=> setAmount(e.target.value)} type="number" name="number" id="number" placeholder="" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
+                                    <label htmlFor="number" className="block mb-2 text-md font-medium text-gray-900 light:text-white">Amount</label>
+                                    <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" name="number" id="number" placeholder="" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white" required />
                                 </div>
 
                                 <div className="flex justify-center pt-2 pb-1">

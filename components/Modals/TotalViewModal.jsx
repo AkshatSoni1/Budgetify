@@ -2,7 +2,7 @@ import TotalViewModalBody from "../ModalBodies/TotalViewModalBody";
 
 const TotalViewModal = (props) => {
     const { updationList,TViewToggle, setTViewToggle } = props;
-    console.log(updationList)
+    // console.log(updationList)
     return (
         <div>
             {/* <!-- Main modal --> */}

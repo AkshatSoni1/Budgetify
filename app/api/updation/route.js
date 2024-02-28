@@ -1,5 +1,5 @@
 import connectToDB from "@/utils/connectDB";
-import UpdateLimit from "@/models/updations";
+import UpdateLimit from "@/models/updation";
 
 export const POST = async (res) => {
     const {creator,description, operation, maximum,month,year} = await res.json();
@@ -24,17 +24,17 @@ export const POST = async (res) => {
     }
 }
 
-export const GET = async(res) => {
+export const GET = async (req) => {
     try {
         await connectToDB();
 
         const url = new URL(req.url);
         const searchParams = new URLSearchParams(url.search);
         const user = searchParams.get("user");
-        const month = searchParams.get("month");
-        const year = searchParams.get("year");
+        const mth = searchParams.get("month");
+        const yr = searchParams.get("year");
 
-        const updationList = await UpdateLimit.find({ creator:user, month:month, year: year })
+        const updationList = await UpdateLimit.find({ creator:user, month:mth, year: yr })
 
         return new Response(JSON.stringify(updationList), {status:200})
     } catch (error) {

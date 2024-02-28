@@ -3,9 +3,9 @@
 import BudgetCard from "@/components/BudgetCard";
 import AddModal from "@/components/Modals/AddModal";
 import TotalModal from "@/components/Modals/TotalModal";
-import TotalViewModal from "@/components/Modals/TotalViewModal";
 import TotalCard from "@/components/TotalCard";
 import { AppContext } from "@/context/AppContext/page";
+import { currencyFormatter } from "@/utils/currencyFormat";
 import { useContext, useState, useEffect } from "react";
 
 const BudgetFeed = ({ data }) => {
@@ -29,9 +29,8 @@ const BudgetFeed = ({ data }) => {
 
 
 const Home = () => {
-  const { totalToggle, setTotalToggle, TViewToggle, setTViewToggle, user, count, month, year } = useContext(AppContext)
+  const { totalToggle, setTotalToggle, TViewToggle, setTViewToggle, user, count, month, year, setCount, setMaximum,setTotalAmount } = useContext(AppContext)
   const [allBudget, setAllBudget] = useState([])
-
   const fetchBudgets = async () => {
     const res = await fetch(`/api/budget?user=${user}&month=${month}&year=${year}`)
 
@@ -58,6 +57,7 @@ const Home = () => {
               method: 'POST',
               body: JSON.stringify({
                 creator: user,
+                amount:0,
                 maximum: 0,
                 month: month,
                 year: year
@@ -78,7 +78,32 @@ const Home = () => {
     } catch (error) {
       console.log(error)
     }
+    
   }
+  const fetchTotalExpense = async()=>{
+      try {
+        const res = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
+        if(res.ok){
+          let response = await res.json();
+          if(response==null){ 
+            console.log(response)
+            setTotalAmount(0)
+          setMaximum(0)
+          }
+          else{
+            console.log(response)
+            setTotalAmount(response.amount)
+            setMaximum(response.maximum)
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  }
+  useEffect(() => {
+    if(user == null) return;
+    fetchTotalExpense()
+  }, [user,count,month,year])
 
   const date = new Date()
   const currentMonth = date.getMonth()+1
@@ -98,9 +123,8 @@ const Home = () => {
 
 
         <div className="" >
-          <TotalModal totalToggle={totalToggle} setTotalToggle={setTotalToggle} />
-          
-          <TotalCard name={`${monthList[month - 1]} - Total Expenses`} amount={0} max={0} setTotalToggle={setTotalToggle} setTViewToggle={setTViewToggle} />
+          <TotalModal totalToggle={totalToggle} setTotalToggle={setTotalToggle} setCount={setCount}/>          
+          <TotalCard name={`${monthList[month - 1]} - Total Expenses`} setTotalToggle={setTotalToggle} setTViewToggle={setTViewToggle} />
         </div>
         <div className="flex flex-wrap sm:max-w-[60%] lg:max-w-[70%] justify-center">
           {/* //map */}

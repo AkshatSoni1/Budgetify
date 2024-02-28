@@ -1,7 +1,7 @@
 import { currencyFormatter } from "@/utils/currencyFormat";
 
 const ViewModalBody = (props) => {
-    const { expId, budgetID, name, amount, setExpCount, setCount } = props;
+    const { expId, budgetID, name, amount, setExpCount, setCount, user,month,year } = props;
 
     const handleDelete = async() =>{
         try {
@@ -36,12 +36,33 @@ const ViewModalBody = (props) => {
                       } catch (error) {
                         console.log(error)
                       }
+
+                      const res3 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
+
+                      if (res3.ok) {
+                        const response = await res3.json();
+                        try {
+                            const res4 = await fetch('/api/totalexpense', {
+                                method: 'PATCH',
+                                body: JSON.stringify({
+                                    creator:response.creator,
+                                    amount: response.amount - amount,
+                                    maximum: response.maximum,
+                                    month: response.month,
+                                    year: response.year
+                                })
+                            })
+                            if(res4.ok){
+                                console.log('Total expense limit updated')
+                            }
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    }
                     }
                   } catch (error) {
                     console.log(error)
                   }
-
-
                 console.log("Expense deleted!")
                 setExpCount((count)=> count+1)
                 setCount((count)=> count+1)

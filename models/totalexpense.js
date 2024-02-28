@@ -5,6 +5,10 @@ const totalexpenseSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    amount:{
+        type: Number,
+        required:[true, "Amount is required"]
+    },
     maximum:{
         type: Number,
         required:[true, "Amount is required"]

@@ -30,6 +30,10 @@ const AppState = (props) => {
     const [budgetID, setBudgetID] = useState(null)
     const [budgetName, setBudgetName] = useState('')
 
+    //total expense maximum
+    const [totalAmount, setTotalAmount] = useState(0)
+    const [maximum, setMaximum] = useState(0)
+
     const checkIsLoggedIn = () => {
       let token = localStorage.getItem('token');
       if(token){
@@ -75,6 +79,10 @@ const AppState = (props) => {
         setBudgetName,
         expCount,
         setExpCount,
+        maximum,
+        setMaximum,
+        totalAmount,
+        setTotalAmount,
         mode,
         setMode
     }}>
