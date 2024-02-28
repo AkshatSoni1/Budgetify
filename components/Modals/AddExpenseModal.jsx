@@ -22,8 +22,7 @@ const AddExpenseModal = () => {
         })
       })
       
-      setDescription('')
-      setAmount('')
+
 
       if(res.ok){
 
@@ -80,6 +79,7 @@ const AddExpenseModal = () => {
         } catch (error) {
           console.log(error)
         }
+
         setCount((count)=>count+1)
         console.log('Expense added!')
       }
@@ -88,6 +88,8 @@ const AddExpenseModal = () => {
       console.log(error)      
     }
     finally{
+      setDescription('')
+      setAmount('')
       setAddExpenseToggle((addExpenseToggle) => !addExpenseToggle)
     }
   }

@@ -16,9 +16,13 @@ const AppState = (props) => {
     const mth = date.getMonth()+1;
     const [month, setMonth] = useState(mth)
 
+    
     // year can be implemented
     const yr = date.getFullYear();
     const [year, setYear] = useState(yr);
+
+    const currentMonth = mth;
+    const currentYear = yr;
     // user
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
     const [user, setUser] = useState(null)
@@ -83,6 +87,8 @@ const AppState = (props) => {
         setMaximum,
         totalAmount,
         setTotalAmount,
+        currentMonth,
+        currentYear,
         mode,
         setMode
     }}>
