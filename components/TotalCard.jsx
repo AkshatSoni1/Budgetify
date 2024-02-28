@@ -44,7 +44,7 @@ const handleViewUpdation = async() => {
   return (
     <>
     <TotalViewModal updationList={updationList} TViewToggle={TViewToggle} setTViewToggle={setTViewToggle} />
-    <div className={`border  px-6 py-4 m-4 rounded-md ${percentage >= 75 ? "bg-red-200 border-red-400" : percentage<50 ? "bg-blue-200 border-blue-400" :"bg-yellow-200 border-yellow-400"} shadow-md shadow-gray-400 z-40`}>
+    <div className={`border  px-6 py-4 m-4 rounded-md ${percentage >= 75 ? "bg-red-200 border-red-400" : percentage<50 ? "bg-blue-200 border-blue-400" :"bg-yellow-100 border-yellow-400"} shadow-md shadow-gray-400 z-40`}>
       <div className="flex justify-between items-center py-2">
         <h1 className="text-lg">{name} - <span className="max-lg:hidden">Total</span> Expenses</h1>
         <h1 className="ps-8 lg:ps-12"><span className="font-semibold">{currencyFormatter.format(amount)}</span> / <span className=" text-sm text-gray-600 font-semibold">{currencyFormatter.format(max | 0)}</span></h1>
