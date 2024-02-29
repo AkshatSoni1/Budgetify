@@ -36,7 +36,7 @@ const Navbar = () => {
             <div className="flex justify-center sm:py-8 pb-5 sticky sm:-top-8 top-0 z-50 ">
                 <nav className="shadow-md shadow-gray-400 sm:w-fit w-screen rounded-xl max-sm:rounded-lg max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200">
                     <div className="flex sm:px-12 py-4 px-8 items-center">
-                        <Link href={user ? "/" : "/login"} className="sm:me-16 max-sm:flex-1 text-xl hover:shadow-sm">Budgetify</Link>
+                        <Link href={user ? "/" : "/login"} className="sm:me-16 max-sm:flex-1 text-xl sm:hover:shadow-sm">Budgetify</Link>
                         {isUserLoggedIn ?
                             <>
                                 <ul className="max-sm:hidden flex gap-6  items-center">

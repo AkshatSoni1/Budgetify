@@ -117,7 +117,7 @@ const Home = () => {
 
   return (
     <>
-      <div className={`flex items-center justify-center flex-col pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[80vh]"}`}>
+      <div className={`flex items-center justify-center flex-col max-sm:pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[80vh]"}`}>
         {/* <div className={`flex items-center justify-center flex-col min-h-[70%] ${(addToggle) && "blur-sm"}`}> */}
         {isUserLoggedIn ?
         <>

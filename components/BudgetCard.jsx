@@ -45,7 +45,7 @@ const BudgetCard = (props) => {
     <>
       <ViewModal viewId={id} expensesList={expensesList}/>
       <AddExpenseModal />
-      <div className={`  px-6 py-4 m-4 rounded-md bg-stone-200 border-gray-800 border-2 shadow-sm `}>
+      <div className={`  px-6 py-4 m-4 max-sm:m-2 rounded-md bg-stone-200 border-gray-800 border-2 shadow-sm `}>
         <div className="flex justify-between py-2">
           <h1>{name}</h1>
           <h1 className="ps-12"><span className="font-semibold">{currencyFormatter.format(amount)}</span></h1>
