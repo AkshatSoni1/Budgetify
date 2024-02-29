@@ -117,7 +117,7 @@ const Home = () => {
 
   return (
     <>
-      <div className={`flex items-center justify-center flex-col max-sm:pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[80vh]"}`}>
+      <div className={`flex items-center justify-center flex-col max-sm:pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[60vh] max-sm:min-h-[80vh]"}`}>
         {/* <div className={`flex items-center justify-center flex-col min-h-[70%] ${(addToggle) && "blur-sm"}`}> */}
         {isUserLoggedIn ?
         <>
@@ -133,7 +133,7 @@ const Home = () => {
         </div>
         </>
       :  
-      <h1 className="animated-text md:text-3xl text-2xl p-5 text-center">Manage your expenses by Sign Up / Sign In</h1>
+      <h1 className="animated-text md:text-3xl text-2xl max-sm:p-5 text-center">Manage your expenses by Sign Up / Sign In</h1>
       }
 
       </div>
