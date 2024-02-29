@@ -12,7 +12,7 @@ export const POST = async (req) => {
         const user = await User.findOne({email});
 
         if(user){
-            return new Response("Email already exists", {status:400})
+            return new Response(JSON.stringify("Email already exists"), {status:400})
         }
 
         const newUser = new User({
@@ -27,7 +27,7 @@ export const POST = async (req) => {
         return new Response(JSON.stringify({user:newUser, token}),{status:200})
     }
     catch(error){
-        return new Response('Cannot sign up!', {status:500})
+        return new Response(JSON.stringify("Cannot sign up!"), {status:500})
     }
 
 }

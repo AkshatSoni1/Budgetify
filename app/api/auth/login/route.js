@@ -23,13 +23,13 @@ export const POST = async (req) => {
 
         }
         else{
-            return new Response("Invalid Credentials!", {status:400});
+            return new Response(JSON.stringify("Invalid Credentials!"), {status:400});
         }
     }
     else{
-        return new Response("User not found!", {status:404})
+        return new Response(JSON.stringify("User not found! Sign Up"), {status:404})
     }
     } catch (error) {
-        return new Response("Cannot Log In!", {status:500});
+        return new Response(JSON.stringify("Cannot Log In!"), {status:500});
     }
 }

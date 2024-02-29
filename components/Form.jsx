@@ -32,9 +32,11 @@ const Form = (props) => {
       setCount(0);
       setIsUserLoggedIn(true);
       router.push('/')
+      ShowToast(true, `${formType} successful!`)
     }
     else {
-      console.log(res)
+      const response = await res.json();
+      ShowToast(false, response)
     }
 
   }
@@ -55,12 +57,8 @@ const Form = (props) => {
         })
 
         updateStates(res)
-
-        ShowToast(true, 'Sign Up successful!')
-
       } catch (error) {
-        ShowToast(false, 'Cannot Sign Up!')
-        console.log(error)
+        // console.log(error)
       }
       finally{
         setIsSubmitting(false)
@@ -78,12 +76,12 @@ const Form = (props) => {
 
         updateStates(res)
 
-        ShowToast(true, 'Sign In successful!')
+        // ShowToast(true, 'Sign In successful!')
 
       }
       catch (error) {
-        ShowToast(false, 'Invalid credentials!')
-        console.log(error)
+        // ShowToast(false, 'Invalid credentials!')
+        // console.log(error)
       }
       finally{
         setIsSubmitting(false)
