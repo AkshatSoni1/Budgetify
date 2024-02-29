@@ -15,8 +15,8 @@ const RootLayout = ({ children }) => {
     return (
         <html lang='en'>
             <head>
-                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-                <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png" />
                 <meta name="theme-color" content="#ffffff" />
             </head>
 
