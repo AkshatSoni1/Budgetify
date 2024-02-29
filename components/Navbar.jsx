@@ -1,18 +1,24 @@
 "use client"
 import { AppContext } from "@/context/AppContext/page";
+import ShowToast from "@/helper/page";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 const Navbar = () => {
-    const { addToggle, setAddToggle, isUserLoggedIn, setIsUserLoggedIn, user, month, setMonth, year, setYear } = useContext(AppContext)
+    const { addToggle, setAddToggle, isUserLoggedIn, setIsUserLoggedIn, user, month, setMonth, year, setYear,currentMonth, currentYear } = useContext(AppContext)
 
     const router = useRouter();
 
     const handleClick = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        setIsUserLoggedIn(false);
-        router.push("/login")
+        try {     
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setIsUserLoggedIn(false);
+            ShowToast(true, 'Successfully Logged out!')
+            router.push("/login")
+        } catch (error) {
+            ShowToast(false, 'Cannot log out!')
+        }
     }
 
     const handleSelectMChange = (e) => {
@@ -27,18 +33,18 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="flex justify-center sm:py-8 pb-5 sticky sm:-top-8 top-0 z-50">
+            <div className="flex justify-center sm:py-8 pb-5 sticky sm:-top-8 top-0 z-50 ">
                 <nav className="shadow-md shadow-gray-400 sm:w-fit w-screen rounded-xl max-sm:rounded-lg max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200">
                     <div className="flex sm:px-12 py-4 px-8 items-center">
                         <Link href={user ? "/" : "/login"} className="sm:me-16 max-sm:flex-1 text-xl hover:shadow-sm">Budgetify</Link>
                         {isUserLoggedIn ?
                             <>
                                 <ul className="max-sm:hidden flex gap-6  items-center">
-                                    <li
+                                {(currentMonth==month && currentYear==year)&&<li
                                         onClick={() => setAddToggle(!addToggle)}
                                         className="hover:cursor-pointer hover:scale-110 duration-150"
                                     ><span>Create Budget</span>
-                                    </li>
+                                    </li>}
                                     <select onChange={handleSelectMChange} value={month} className=" bg-transparent p-2 hover:cursor-pointer border-b border-black">
                                         <option value={1}>January</option>
                                         <option value={2}>February</option>
@@ -118,14 +124,14 @@ const Navbar = () => {
                         <option value={2024}>2024</option>
                     </select>
 
-                    <button
+                    {(currentMonth==month && currentYear==year)&&<button
                         type="button"
                         className="sm:hidden relative rounded px-3 py-2 overflow-hidden group bg-gray-900 hover:bg-gradient-to-r hover:from-gray-900 hover:to-gray-800 text-white hover:ring-1 hover:ring-gray-800 transition-all ease-out duration-300"
                         onClick={() => setAddToggle(!addToggle)}
                     >
                         <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                         <span className="relative">Create Budget</span>
-                    </button>
+                    </button>}
                 </div>
             </div>}
         </>

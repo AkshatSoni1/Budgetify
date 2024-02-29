@@ -1,18 +1,20 @@
 "use client"
 import { useState, useContext } from "react";
 import { AppContext } from "@/context/AppContext/page";
+import ShowToast from "@/helper/page";
 
 const AddExpenseModal = () => {
   const { addExpenseToggle, setAddExpenseToggle, budgetName, budgetID, setCount, user, month, year } = useContext(AppContext);
 
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
     try {
-
       const res = await fetch('/api/expense',{
         method:'POST',
         body: JSON.stringify({
@@ -47,7 +49,7 @@ const AddExpenseModal = () => {
               })
     
               if(res2.ok){
-                console.log("Updated")
+                // console.log("Updated")
               }
             } catch (error) {
               console.log(error)
@@ -70,7 +72,7 @@ const AddExpenseModal = () => {
                     })
                 })
                 if(res4.ok){
-                    console.log('Total expense limit updated')
+                    // console.log('Total expense limit updated')
                 }
             } catch (error) {
                 console.log(error)
@@ -81,15 +83,18 @@ const AddExpenseModal = () => {
         }
 
         setCount((count)=>count+1)
-        console.log('Expense added!')
+        // console.log('Expense added!')
+        ShowToast(true, 'Expense added!')
       }
     } 
     catch (error) {
+      ShowToast(false, 'Cannot add expense!')
       console.log(error)      
     }
     finally{
       setDescription('')
       setAmount('')
+      setIsSubmitting(false)
       setAddExpenseToggle((addExpenseToggle) => !addExpenseToggle)
     }
   }
@@ -141,7 +146,7 @@ const AddExpenseModal = () => {
                   />
                 </div>
                 <div className="flex justify-center pt-2 pb-1">
-                  <button type='submit' className="relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group" >
+                  <button type='submit' className={`relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group ${isSubmitting&&"cursor-not-allowed"}`} >
                     <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-gray-600 group-hover:w-full ease"></span>
                     <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-gray-600 group-hover:w-full ease"></span>
                     <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>

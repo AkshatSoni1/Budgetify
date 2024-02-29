@@ -1,5 +1,6 @@
 "use client"
 import { AppContext } from "@/context/AppContext/page";
+import ShowToast from "@/helper/page";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { AiFillEyeInvisible } from "react-icons/ai";
@@ -33,7 +34,7 @@ const Form = (props) => {
       router.push('/')
     }
     else {
-      alert("Can't do")
+      console.log(res)
     }
 
   }
@@ -55,7 +56,10 @@ const Form = (props) => {
 
         updateStates(res)
 
+        ShowToast(true, 'Sign Up successful!')
+
       } catch (error) {
+        ShowToast(false, 'Cannot Sign Up!')
         console.log(error)
       }
       finally{
@@ -74,8 +78,11 @@ const Form = (props) => {
 
         updateStates(res)
 
+        ShowToast(true, 'Sign In successful!')
+
       }
       catch (error) {
+        ShowToast(false, 'Invalid credentials!')
         console.log(error)
       }
       finally{

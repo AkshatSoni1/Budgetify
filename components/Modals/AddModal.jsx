@@ -1,5 +1,6 @@
 "use client"
 import { AppContext } from '@/context/AppContext/page'
+import ShowToast from '@/helper/page';
 import { useContext, useState } from 'react'
 
 const AddModal = () => {
@@ -27,11 +28,13 @@ const AddModal = () => {
 
             setBName('')
             if(res.ok){
+                ShowToast(true, 'Budget added!')
                 setAddToggle((addToggle) => !addToggle)
                 setCount((count)=>count+1)
             }
 
         } catch (error) {
+            ShowToast(false, 'Cannot add budget!')
             console.log(error)
         }
     }

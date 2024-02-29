@@ -65,14 +65,14 @@ const Home = () => {
             })
 
             if (res1.ok) {
-              console.log('Total expense for ', month, ' ', year, ' created')
+              // console.log('Total expense for ', month, ' ', year, ' created')
             }
           } catch (error) {
             console.log(error)
           }
         }
         else{
-          console.log('Already exists')
+          // console.log('Already exists')
         }
         }
     } catch (error) {
@@ -86,12 +86,12 @@ const Home = () => {
         if(res.ok){
           let response = await res.json();
           if(response==null){ 
-            console.log(response)
+            // console.log(response)
             setTotalAmount(0)
           setMaximum(0)
           }
           else{
-            console.log(response)
+            // console.log(response)
             setTotalAmount(response.amount)
             setMaximum(response.maximum)
           }

@@ -1,6 +1,7 @@
 "use client"
 
 import { AppContext } from "@/context/AppContext/page";
+import ShowToast from "@/helper/page";
 import { useContext, useEffect, useState } from "react";
 
 const TotalModal = (props) => {
@@ -30,10 +31,7 @@ const TotalModal = (props) => {
             })
 
             if (res.ok) {
-                console.log('Updation added')
-
-                setDescription('')
-                setAmount('')
+                // console.log('Updation added')
 
                 const res1 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`)
 
@@ -59,16 +57,20 @@ const TotalModal = (props) => {
                         })
                         if(res2.ok){
                             setCount((count)=>count+1)
-                            console.log('Total expense limit updated')
+                            // console.log('Total expense limit updated')
                         }
                     } catch (error) {
                         console.log(error)
                     }
                 }
             }
+            ShowToast(true, 'Maximum Limit updated!')
         } catch (error) {
+            ShowToast(false, 'Cannot update your limit!')
             console.log('Cannot add updation')
         }
+        setDescription('')
+        setAmount('')
         setTotalToggle((totalToggle) => !totalToggle)
     }
 
