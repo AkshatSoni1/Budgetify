@@ -39,10 +39,10 @@ const TotalModal = (props) => {
                     const response = await res1.json();
                     let updateMaxi=0;
                     if(operation === 'Credited'){
-                        updateMaxi = response.maximum - amount
+                        updateMaxi = response.maximum + +amount
                     }
                     else{
-                        updateMaxi = response.maximum + +amount
+                        updateMaxi = response.maximum - amount
                     }
                     try {
                         const res2 = await fetch('/api/totalexpense', {
@@ -60,14 +60,14 @@ const TotalModal = (props) => {
                             // console.log('Total expense limit updated')
                         }
                     } catch (error) {
-                        console.log(error)
+                        // console.log(error)
                     }
                 }
             }
             ShowToast(true, 'Maximum Limit updated!')
         } catch (error) {
             ShowToast(false, 'Cannot update your limit!')
-            console.log('Cannot add updation')
+            // console.log('Cannot add updation')
         }
         setDescription('')
         setAmount('')
