@@ -103,7 +103,7 @@ const Navbar = () => {
                     </div>
                 </nav>
             </div>
-            {isUserLoggedIn&&<div className={`sm:hidden flex justify-center pt-4 pb-6 px-2 fixed bottom-0 z-50 w-screen ${mode==='dark' ? "bg-gradient-to-r from-emerald-800 to-emerald-600 text-gray-200":" bg-gradient-to-r from-emerald-400 to-green-200"} `}>
+            {isUserLoggedIn&&<div className={`sm:hidden flex justify-center pt-4 pb-5 px-2 fixed bottom-0 z-50 w-screen ${mode==='dark' ? "bg-gradient-to-r from-emerald-800 to-emerald-600 text-gray-200":" bg-gradient-to-r from-emerald-400 to-green-200"} `}>
                 <div className=" flex gap-5 items-center">
 
                     <select onChange={handleSelectMChange} value={month} className={`bg-transparent p-2 hover:cursor-pointer border-b border-black ${mode === 'dark' && "border-white"}`}>
