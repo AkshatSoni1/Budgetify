@@ -34,9 +34,9 @@ const Navbar = () => {
     return (
         <>
             <div className="flex justify-center sm:py-8 pb-5 sticky sm:-top-8 top-0 z-50 ">
-                <nav className={`${mode === 'light' ? "shadow-gray-400 shadow-md max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200" : "bg-gradient-to-r from-emerald-200 to-green-100 max-sm:from-emerald-300 max-sm:to-green-200"} sm:w-fit w-screen rounded-xl max-sm:rounded-lg `}>
+                <nav className={`${mode === 'light' ? "shadow-gray-400 shadow-md max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200" : "bg-gradient-to-r from-emerald-200 to-green-100 max-sm:from-emerald-800 max-sm:to-emerald-600"} sm:w-fit w-screen rounded-xl max-sm:rounded-lg `}>
                     <div className="flex sm:px-12 py-4 px-8 items-center">
-                        <Link href={user ? "/" : "/login"} className="sm:me-16 max-sm:flex-1 text-xl sm:hover:shadow-sm">Budgetify</Link>
+                        <Link href={user ? "/" : "/login"} className={`sm:me-16 max-sm:flex-1 text-xl sm:hover:shadow-sm text-gray-900 ${mode==='dark' && "max-sm:text-white"}`}>Budgetify</Link>
                         {isUserLoggedIn ?
                             <>
                                 <ul className="max-sm:hidden flex gap-6  items-center">
@@ -103,10 +103,10 @@ const Navbar = () => {
                     </div>
                 </nav>
             </div>
-            {isUserLoggedIn&&<div className={`${mode==='dark' && "bg-gradient-to-r from-emerald-300 to-green-200 "} sm:hidden flex justify-center py-6 px-2 fixed bottom-0 z-50 shadow-md shadow-gray-400 w-screen bg-gradient-to-r from-emerald-400 to-green-200`}>
+            {isUserLoggedIn&&<div className={`${mode==='dark' && "bg-gradient-to-r from-emerald-800 to-emerald-600 text-gray-200"} sm:hidden flex justify-center pt-4 pb-6 px-2 fixed bottom-0 z-50 shadow-md shadow-gray-400 w-screen bg-gradient-to-r from-emerald-400 to-green-200`}>
                 <div className=" flex gap-5 items-center">
 
-                    <select onChange={handleSelectMChange} value={month} className=" bg-transparent p-2 hover:cursor-pointer border-b border-black">
+                    <select onChange={handleSelectMChange} value={month} className={`bg-transparent p-2 hover:cursor-pointer border-b border-black ${mode === 'dark' && "border-white"}`}>
                         <option value={1}>Jan</option>
                         <option value={2}>Feb</option>
                         <option value={3}>Mar</option>
@@ -120,7 +120,7 @@ const Navbar = () => {
                         <option value={11}>Nov</option>
                         <option value={12}>Dec</option>
                     </select>
-                    <select onChange={handleSelectYChange} value={year} className=" bg-transparent p-2 hover:cursor-pointer border-b border-black">
+                    <select onChange={handleSelectYChange} value={year} className={`bg-transparent p-2 hover:cursor-pointer border-b border-black ${mode === 'dark' && "border-white"}`}>
                         <option value={2024}>2024</option>
                     </select>
 

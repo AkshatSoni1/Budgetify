@@ -120,7 +120,7 @@ const Home = () => {
     <>
     <div className={`${mode==='dark'&&" bg-gray-900 fixed h-full w-full top-0 -z-50"}`}>
     </div>
-    <ToggleMode mode={mode} setMode={setMode}/>
+    {isUserLoggedIn&&<ToggleMode mode={mode} setMode={setMode}/>}
       <div className={`flex items-center justify-center flex-col max-sm:pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[60vh] max-sm:min-h-[80vh]"}`}>
         {/* <div className={`flex items-center justify-center flex-col min-h-[70%] ${(addToggle) && "blur-sm"}`}> */}
         {isUserLoggedIn ?
