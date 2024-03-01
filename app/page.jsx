@@ -3,6 +3,7 @@
 import BudgetCard from "@/components/BudgetCard";
 import AddModal from "@/components/Modals/AddModal";
 import TotalModal from "@/components/Modals/TotalModal";
+import ToggleMode from "@/components/ToggleMode";
 import TotalCard from "@/components/TotalCard";
 import { AppContext } from "@/context/AppContext/page";
 import { currencyFormatter } from "@/utils/currencyFormat";
@@ -29,7 +30,7 @@ const BudgetFeed = ({ data }) => {
 
 
 const Home = () => {
-  const { totalToggle, setTotalToggle, isUserLoggedIn, setTViewToggle, user, count, month, year, setCount, setMaximum,setTotalAmount, addToggle } = useContext(AppContext)
+  const { totalToggle, setTotalToggle, isUserLoggedIn, setTViewToggle, user, count, month, year, setCount, setMaximum,setTotalAmount, mode, setMode } = useContext(AppContext)
   const [allBudget, setAllBudget] = useState([])
   const fetchBudgets = async () => {
     const res = await fetch(`/api/budget?user=${user}&month=${month}&year=${year}`)
@@ -117,6 +118,9 @@ const Home = () => {
 
   return (
     <>
+    <div className={`${mode==='dark'&&" bg-gray-900 fixed h-full w-full top-0 -z-50"}`}>
+    </div>
+    <ToggleMode mode={mode} setMode={setMode}/>
       <div className={`flex items-center justify-center flex-col max-sm:pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[60vh] max-sm:min-h-[80vh]"}`}>
         {/* <div className={`flex items-center justify-center flex-col min-h-[70%] ${(addToggle) && "blur-sm"}`}> */}
         {isUserLoggedIn ?
@@ -125,7 +129,7 @@ const Home = () => {
 
         <div className="" >
           <TotalModal totalToggle={totalToggle} setTotalToggle={setTotalToggle} setCount={setCount}/>          
-          <TotalCard name={`${monthList[month - 1]}`} setTotalToggle={setTotalToggle} setTViewToggle={setTViewToggle} />
+          <TotalCard name={`${monthList[month - 1]}`} />
         </div>
         <div className="flex flex-wrap sm:max-w-[60%] lg:max-w-[70%] justify-center">
           {/* //map */}
@@ -133,7 +137,7 @@ const Home = () => {
         </div>
         </>
       :  
-      <h1 className="animated-text md:text-3xl text-2xl max-sm:p-5 text-center">Manage your expenses by Sign Up / Sign In</h1>
+      <h1 className="animated-text md:text-4xl md:py-4 text-2xl max-sm:p-5 text-center">Manage your expenses by Sign Up / Sign In</h1>
       }
 
       </div>

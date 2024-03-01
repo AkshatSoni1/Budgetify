@@ -3,9 +3,9 @@ import { AppContext } from "@/context/AppContext/page";
 import ShowToast from "@/helper/page";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 const Navbar = () => {
-    const { addToggle, setAddToggle, isUserLoggedIn, setIsUserLoggedIn, user, month, setMonth, year, setYear,currentMonth, currentYear } = useContext(AppContext)
+    const { addToggle, setAddToggle, isUserLoggedIn, setIsUserLoggedIn, user, month, setMonth, year, setYear,currentMonth, currentYear, mode } = useContext(AppContext)
 
     const router = useRouter();
 
@@ -34,7 +34,7 @@ const Navbar = () => {
     return (
         <>
             <div className="flex justify-center sm:py-8 pb-5 sticky sm:-top-8 top-0 z-50 ">
-                <nav className="shadow-md shadow-gray-400 sm:w-fit w-screen rounded-xl max-sm:rounded-lg max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200">
+                <nav className={`${mode === 'light' ? "shadow-gray-400 shadow-md max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200" : "bg-gradient-to-r from-emerald-200 to-green-100 max-sm:from-emerald-300 max-sm:to-green-200"} sm:w-fit w-screen rounded-xl max-sm:rounded-lg `}>
                     <div className="flex sm:px-12 py-4 px-8 items-center">
                         <Link href={user ? "/" : "/login"} className="sm:me-16 max-sm:flex-1 text-xl sm:hover:shadow-sm">Budgetify</Link>
                         {isUserLoggedIn ?
@@ -103,7 +103,7 @@ const Navbar = () => {
                     </div>
                 </nav>
             </div>
-            {isUserLoggedIn&&<div className="sm:hidden flex justify-center py-6 px-2 fixed bottom-0 z-50 shadow-md shadow-gray-400 w-screen bg-gradient-to-r from-emerald-400 to-green-200">
+            {isUserLoggedIn&&<div className={`${mode==='dark' && "bg-gradient-to-r from-emerald-300 to-green-200 "} sm:hidden flex justify-center py-6 px-2 fixed bottom-0 z-50 shadow-md shadow-gray-400 w-screen bg-gradient-to-r from-emerald-400 to-green-200`}>
                 <div className=" flex gap-5 items-center">
 
                     <select onChange={handleSelectMChange} value={month} className=" bg-transparent p-2 hover:cursor-pointer border-b border-black">
