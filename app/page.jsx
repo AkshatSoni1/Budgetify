@@ -118,7 +118,7 @@ const Home = () => {
 
   return (
     <>
-    <div className={`${mode==='dark'&&" bg-gray-900 fixed h-full w-full top-0 -z-50"}`}>
+    <div className={`${mode==='dark'&&" bg-gradient-to-br from-zinc-800 to-zinc-900 fixed h-full w-full top-0 -z-50"}`}>
     </div>
     {isUserLoggedIn&&<ToggleMode mode={mode} setMode={setMode}/>}
       <div className={`flex items-center justify-center flex-col max-sm:pb-24 ${isUserLoggedIn ? "min-h-[70%]" : "min-h-[60vh] max-sm:min-h-[80vh]"}`}>
