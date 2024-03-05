@@ -38,6 +38,9 @@ const AppState = (props) => {
     const [totalAmount, setTotalAmount] = useState(0)
     const [maximum, setMaximum] = useState(0)
 
+    const [isAdding, setIsAdding] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
+
     const checkIsLoggedIn = () => {
       let token = localStorage.getItem('token');
       if(token){
@@ -89,6 +92,10 @@ const AppState = (props) => {
         setTotalAmount,
         currentMonth,
         currentYear,
+        isDeleting,
+        setIsDeleting,
+        isAdding,
+        setIsAdding,
         mode,
         setMode
     }}>

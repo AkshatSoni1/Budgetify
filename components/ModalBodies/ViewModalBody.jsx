@@ -2,78 +2,82 @@ import ShowToast from "@/helper/page";
 import { currencyFormatter } from "@/utils/currencyFormat";
 
 const ViewModalBody = (props) => {
-  const { expId, budgetID, name, amount, setExpCount, setCount, user, month, year, currentMonth, currentYear } = props;
+  const { expId, budgetID, name, amount, setExpCount, setCount, user, month, year, currentMonth, currentYear, isDeleting, setIsDeleting } = props;
 
   const handleDelete = async () => {
-    try {
-      const res = await fetch(`/api/expense/${expId}`, {
-        method: 'DELETE'
-      })
+    if(!isDeleting){
+      setIsDeleting(true);
+      try {
+        const res = await fetch(`/api/expense/${expId}`, {
+          method: 'DELETE'
+        })
 
-      if (res.ok) {
-        try {
-          const res1 = await fetch(`/api/budget/${budgetID}`);
+        if (res.ok) {
+          try {
+            const res1 = await fetch(`/api/budget/${budgetID}`);
 
-          if (res1.ok) {
-            const response = await res1.json();
-            //   console.log("RES", response)
+            if (res1.ok) {
+              const response = await res1.json();
+              //   console.log("RES", response)
 
-            try {
-              // console.log("SB",response)
-              const res2 = await fetch(`/api/budget/${budgetID}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                  creator: response.creator,
-                  name: response.name,
-                  amount: response.amount - amount,
-                  month: response.month,
-                  year: response.year,
-                })
-              })
-
-              if (res2.ok) {
-                // console.log("Updated")
-              }
-            } catch (error) {
-              console.log(error)
-            }
-
-            const res3 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
-
-            if (res3.ok) {
-              const response = await res3.json();
               try {
-                const res4 = await fetch('/api/totalexpense', {
+                // console.log("SB",response)
+                const res2 = await fetch(`/api/budget/${budgetID}`, {
                   method: 'PATCH',
                   body: JSON.stringify({
                     creator: response.creator,
+                    name: response.name,
                     amount: response.amount - amount,
-                    maximum: response.maximum,
                     month: response.month,
-                    year: response.year
+                    year: response.year,
                   })
                 })
-                if (res4.ok) {
-                  // console.log('Total expense limit updated')
+
+                if (res2.ok) {
+                  // console.log("Updated")
                 }
               } catch (error) {
                 console.log(error)
               }
+
+              const res3 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
+
+              if (res3.ok) {
+                const response = await res3.json();
+                try {
+                  const res4 = await fetch('/api/totalexpense', {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                      creator: response.creator,
+                      amount: response.amount - amount,
+                      maximum: response.maximum,
+                      month: response.month,
+                      year: response.year
+                    })
+                  })
+                  if (res4.ok) {
+                    // console.log('Total expense limit updated')
+                  }
+                } catch (error) {
+                  console.log(error)
+                }
+              }
             }
+          } catch (error) {
+            console.log(error)
           }
-        } catch (error) {
-          console.log(error)
+          // console.log("Expense deleted!")
+          setExpCount((count) => count + 1)
+          setCount((count) => count + 1)
         }
-        // console.log("Expense deleted!")
-        setExpCount((count) => count + 1)
-        setCount((count) => count + 1)
+        ShowToast(true, 'Expense deleted!')
+      } catch (error) {
+        ShowToast(false, 'Cannot delete expense!')
+        console.log(error)
       }
-      ShowToast(true, 'Expense deleted!')
-    } catch (error) {
-      ShowToast(false, 'Cannot delete expense!')
-      console.log(error)
+      setIsDeleting(false);
     }
-  }
+}
 
   return (
     <div className="flex items-center py-2">

@@ -6,88 +6,91 @@ import { AppContext } from "@/context/AppContext/page";
 import ShowToast from "@/helper/page";
 
 const ViewModal = (props) => {
-    const { budgetID, budgetName, viewToggle, setViewToggle, setCount, setExpCount, user, month, year, currentMonth, currentYear,totalAmntForABudgetCard,setTotalAmntForABudgetCard } = useContext(AppContext)
+    const { budgetID, budgetName, viewToggle, setViewToggle, setCount, setExpCount, user, month, year, currentMonth, currentYear, isDeleting, setIsDeleting } = useContext(AppContext)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { viewId,expensesList } = props;
+    const { viewId, expensesList } = props;
 
     let responseAmount = 0;
     const handleDelete = async () => {
-        setIsSubmitting(true)
-        try {
-            const res = await fetch(`/api/budget/${budgetID}`);
-            if(res.ok){
-                const response = await res.json();
-                responseAmount = response.amount
+        setIsSubmitting(true);
+        if (!isDeleting) {
+            setIsDeleting(true);
+            try {
+                const res = await fetch(`/api/budget/${budgetID}`);
+                if (res.ok) {
+                    const response = await res.json();
+                    responseAmount = response.amount
+                }
+            } catch (error) {
+                console.log(error)
             }
-        } catch (error) {
-            console.log(error)
-        }
-        try {
-            const res = await fetch(`/api/budget/${budgetID}`, {
-                method: "DELETE"
-            })
+            try {
+                const res = await fetch(`/api/budget/${budgetID}`, {
+                    method: "DELETE"
+                })
 
-            if (res.ok) {
-                // setExpensesList([])
-                // console.log("Budget deleted!")
-                try {
-                    const res2 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
-                    if (res2.ok) {
-                        const response = await res2.json();
-                        console.log(response, "RES")
-                        console.log(responseAmount, 'TAFBC')
-                        try {
-                            const res3 = await fetch('/api/totalexpense', {
-                                method: 'PATCH',
-                                body: JSON.stringify({
-                                    creator:response.creator,
-                                    amount: response.amount - responseAmount,
-                                    maximum: response.maximum,
-                                    month: response.month,
-                                    year: response.year
+                if (res.ok) {
+                    // setExpensesList([])
+                    // console.log("Budget deleted!")
+                    try {
+                        const res2 = await fetch(`/api/totalexpense?user=${user}&month=${month}&year=${year}`);
+                        if (res2.ok) {
+                            const response = await res2.json();
+                            console.log(response, "RES")
+                            console.log(responseAmount, 'TAFBC')
+                            try {
+                                const res3 = await fetch('/api/totalexpense', {
+                                    method: 'PATCH',
+                                    body: JSON.stringify({
+                                        creator: response.creator,
+                                        amount: response.amount - responseAmount,
+                                        maximum: response.maximum,
+                                        month: response.month,
+                                        year: response.year
+                                    })
                                 })
-                            })
-                            if(res3.ok){
-                                // console.log('Total expense limit updated')
+                                if (res3.ok) {
+                                    // console.log('Total expense limit updated')
+                                }
+                            } catch (error) {
+                                console.log(error)
                             }
-                        } catch (error) {
-                            console.log(error)
                         }
+                    } catch (error) {
+                        console.log(error)
                     }
-                } catch (error) {
-                    console.log(error)
-                }
 
-                try {
-                    const res1 = await fetch('/api/expense',{
-                        method:'DELETE',
-                        body: JSON.stringify({
-                            budgetId:budgetID
+                    try {
+                        const res1 = await fetch('/api/expense', {
+                            method: 'DELETE',
+                            body: JSON.stringify({
+                                budgetId: budgetID
+                            })
                         })
-                    })
-        
-                    if(res1.ok){
-                        // console.log("All expenses deleted!")
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
 
+                        if (res1.ok) {
+                            // console.log("All expenses deleted!")
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+
+                }
+                ShowToast(true, 'Budget deleted!')
+            } catch (error) {
+                ShowToast(false, 'Cannot delete budget!')
+                console.log(error)
             }
-            ShowToast(true, 'Budget deleted!')
-        } catch (error) {
-            ShowToast(false, 'Cannot delete budget!')
-            console.log(error)
+            setIsSubmitting(false)
+            setCount((count) => count + 1)
+            setViewToggle((viewToggle) => !viewToggle)
+            setIsDeleting(false);
         }
-        setIsSubmitting(false)
-        setCount((count) => count + 1)
-        setViewToggle((viewToggle) => !viewToggle)
-        
     }
     return (
         <div>
             {/* <!-- Main modal --> */}
-            <div id="authentication-modal" tabIndex="-1" aria-hidden="true" className={`${!viewToggle && "hidden"} ${(budgetID!==viewId) && "hidden"} fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
+            <div id="authentication-modal" tabIndex="-1" aria-hidden="true" className={`${!viewToggle && "hidden"} ${(budgetID !== viewId) && "hidden"} fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 w-full max-w-md max-h-full">
                     {/* <!-- Modal content --> */}
                     <div className="relative bg-white rounded-lg shadow light:bg-gray-700">
@@ -97,7 +100,7 @@ const ViewModal = (props) => {
                                 Expense - {budgetName}
                             </h3>
 
-                            <button onClick={handleDelete} className={`relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-red-400 rounded-lg group bg-gradient-to-br from-red-600 to-red-400 group-hover:from-red-600 group-hover:to-red-500 hover:text-white light:text-white focus:ring-2 focus:outline-none focus:ring-red-200 light:focus:ring-blue-800 ${isSubmitting&&"cursor-not-allowed"}`}>
+                            <button onClick={handleDelete} className={`relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-red-400 rounded-lg group bg-gradient-to-br from-red-600 to-red-400 group-hover:from-red-600 group-hover:to-red-500 hover:text-white light:text-white focus:ring-2 focus:outline-none focus:ring-red-200 light:focus:ring-blue-800 ${isSubmitting && "cursor-not-allowed"}`}>
                                 <span className="relative px-4 py-2 transition-all ease-in duration-75 bg-white light:bg-gray-900 rounded-md group-hover:bg-opacity-0 font-bold">
                                     Delete
                                 </span>
@@ -123,6 +126,8 @@ const ViewModal = (props) => {
                                             year={year}
                                             currentMonth={currentMonth}
                                             currentYear={currentYear}
+                                            isDeleting={isDeleting}
+                                            setIsDeleting={setIsDeleting}
                                         />
                                     ))
                                 }

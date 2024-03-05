@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 
 const TotalModal = (props) => {
     const { totalToggle, setTotalToggle} = props;
-    const { user, month, year, setCount } = useContext(AppContext)
+    const { user, month, year, setCount, isAdding,setIsAdding } = useContext(AppContext)
 
     const [description, setDescription] = useState('')
     const [operation, setOperation] = useState('Credited')
@@ -17,6 +17,8 @@ const TotalModal = (props) => {
     }
 
     const handleClick = async () => {
+        if(!isAdding){
+        setIsAdding(true);
         try {
             const res = await fetch('/api/updation', {
                 method: 'POST',
@@ -72,6 +74,8 @@ const TotalModal = (props) => {
         setDescription('')
         setAmount('')
         setTotalToggle((totalToggle) => !totalToggle)
+        setIsAdding(false)
+    }
     }
 
 
