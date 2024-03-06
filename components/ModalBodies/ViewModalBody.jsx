@@ -5,7 +5,6 @@ const ViewModalBody = (props) => {
   const { expId, budgetID, name, amount, setExpCount, setCount, user, month, year, currentMonth, currentYear, isDeleting, setIsDeleting } = props;
 
   const handleDelete = async () => {
-    if(!isDeleting){
       setIsDeleting(true);
       try {
         const res = await fetch(`/api/expense/${expId}`, {
@@ -76,7 +75,6 @@ const ViewModalBody = (props) => {
         console.log(error)
       }
       setIsDeleting(false);
-    }
 }
 
   return (
@@ -88,7 +86,7 @@ const ViewModalBody = (props) => {
       </div>
       {/* [ ] */}
       {/* onclick dekh */}
-      {(currentMonth == month && currentYear == year) && <button onClick={handleDelete} type="button" className="shadow-sm border border-red-600 end-2.5 text-red-400 bg-transparent hover:bg-red-600 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center light:hover:bg-gray-600 light:hover:text-white hover:shadow-sm">
+      {(currentMonth == month && currentYear == year) && <button disabled={isDeleting} onClick={handleDelete} type="button" className="shadow-sm border border-red-600 end-2.5 text-red-400 bg-transparent hover:bg-red-600 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center light:hover:bg-gray-600 light:hover:text-white hover:shadow-sm">
         <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
         </svg>

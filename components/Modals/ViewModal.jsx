@@ -13,7 +13,6 @@ const ViewModal = (props) => {
     let responseAmount = 0;
     const handleDelete = async () => {
         setIsSubmitting(true);
-        if (!isDeleting) {
             setIsDeleting(true);
             try {
                 const res = await fetch(`/api/budget/${budgetID}`);
@@ -85,7 +84,6 @@ const ViewModal = (props) => {
             setCount((count) => count + 1)
             setViewToggle((viewToggle) => !viewToggle)
             setIsDeleting(false);
-        }
     }
     return (
         <div>
@@ -100,7 +98,7 @@ const ViewModal = (props) => {
                                 Expense - {budgetName}
                             </h3>
 
-                            <button onClick={handleDelete} className={`relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-red-400 rounded-lg group bg-gradient-to-br from-red-600 to-red-400 group-hover:from-red-600 group-hover:to-red-500 hover:text-white light:text-white focus:ring-2 focus:outline-none focus:ring-red-200 light:focus:ring-blue-800 ${isSubmitting && "cursor-not-allowed"}`}>
+                            <button disabled={isDeleting} onClick={handleDelete} className={`relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-red-400 rounded-lg group bg-gradient-to-br from-red-600 to-red-400 group-hover:from-red-600 group-hover:to-red-500 hover:text-white light:text-white focus:ring-2 focus:outline-none focus:ring-red-200 light:focus:ring-blue-800 ${isSubmitting && "cursor-not-allowed"}`}>
                                 <span className="relative px-4 py-2 transition-all ease-in duration-75 bg-white light:bg-gray-900 rounded-md group-hover:bg-opacity-0 font-bold">
                                     Delete
                                 </span>

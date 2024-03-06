@@ -17,7 +17,6 @@ const TotalModal = (props) => {
     }
 
     const handleClick = async () => {
-        if(!isAdding){
         setIsAdding(true);
         try {
             const res = await fetch('/api/updation', {
@@ -76,7 +75,6 @@ const TotalModal = (props) => {
         setTotalToggle((totalToggle) => !totalToggle)
         setIsAdding(false)
     }
-    }
 
 
 
@@ -123,7 +121,7 @@ const TotalModal = (props) => {
                                 </div>
 
                                 <div className="flex justify-center pt-2 pb-1">
-                                    <button type='button' onClick={handleClick} className="relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group" >
+                                    <button disabled={isAdding} type='button' onClick={handleClick} className="relative px-5 py-3  overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group" >
                                         <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-gray-600 group-hover:w-full ease"></span>
                                         <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-gray-600 group-hover:w-full ease"></span>
                                         <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
