@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 const Navbar = () => {
-    const { addToggle, setAddToggle, isUserLoggedIn, setIsUserLoggedIn, user, month, setMonth, year, setYear,currentMonth, currentYear, mode } = useContext(AppContext)
+    const { addToggle, setAddToggle, isUserLoggedIn, setIsUserLoggedIn, user, month, setMonth, year, setYear, currentMonth, currentYear, mode } = useContext(AppContext)
 
     const router = useRouter();
 
     const handleClick = () => {
-        try {     
+        try {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             setIsUserLoggedIn(false);
@@ -36,11 +36,11 @@ const Navbar = () => {
             <div className="flex justify-center sm:py-8 pb-5 sticky sm:-top-8 top-0 z-50 ">
                 <nav className={`${mode === 'light' ? "shadow-gray-400 shadow-md max-sm:shadow-sm bg-gradient-to-r from-emerald-400 to-green-200" : "bg-gradient-to-r from-emerald-200 to-green-100 max-sm:from-emerald-800 max-sm:to-emerald-600"} sm:w-fit w-screen rounded-xl max-sm:rounded-lg `}>
                     <div className="flex sm:px-12 py-4 px-8 items-center">
-                        <Link href={user ? "/" : "/login"} className={`sm:me-16 max-sm:flex-1 text-xl sm:hover:shadow-sm text-gray-900 ${mode==='dark' && "max-sm:text-white"}`}>Budgetify</Link>
+                        <Link href={user ? "/" : "/login"} className={`sm:me-16 max-sm:flex-1 text-xl sm:hover:shadow-sm text-gray-900 ${mode === 'dark' && "max-sm:text-white"}`}>Budgetify</Link>
                         {isUserLoggedIn ?
                             <>
                                 <ul className="max-sm:hidden flex gap-6  items-center">
-                                {(currentMonth==month && currentYear==year)&&<li
+                                    {(currentMonth == month && currentYear == year) && <li
                                         onClick={() => setAddToggle(!addToggle)}
                                         className="hover:cursor-pointer hover:scale-110 duration-150"
                                     ><span>Create Budget</span>
@@ -61,6 +61,7 @@ const Navbar = () => {
                                     </select>
                                     <select onChange={handleSelectYChange} value={year} className=" bg-transparent p-2 hover:cursor-pointer border-b border-black">
                                         <option value={2024}>2024</option>
+                                        <option value={2025}>2025</option>
                                     </select>
                                     <button
                                         type="button"
@@ -103,7 +104,7 @@ const Navbar = () => {
                     </div>
                 </nav>
             </div>
-            {isUserLoggedIn&&<div className={`sm:hidden flex justify-center pt-4 pb-5 px-2 fixed bottom-0 z-50 w-screen ${mode==='dark' ? "bg-gradient-to-r from-emerald-800 to-emerald-600 text-gray-200":" bg-gradient-to-r from-emerald-400 to-green-200"} `}>
+            {isUserLoggedIn && <div className={`sm:hidden flex justify-center pt-4 pb-5 px-2 fixed bottom-0 z-50 w-screen ${mode === 'dark' ? "bg-gradient-to-r from-emerald-800 to-emerald-600 text-gray-200" : " bg-gradient-to-r from-emerald-400 to-green-200"} `}>
                 <div className=" flex gap-5 items-center">
 
                     <select onChange={handleSelectMChange} value={month} className={`bg-transparent p-2 hover:cursor-pointer border-b border-black ${mode === 'dark' && "border-white"}`}>
@@ -124,7 +125,7 @@ const Navbar = () => {
                         <option value={2024}>2024</option>
                     </select>
 
-                    {(currentMonth==month && currentYear==year)&&<button
+                    {(currentMonth == month && currentYear == year) && <button
                         type="button"
                         className="sm:hidden relative rounded px-3 py-2 overflow-hidden group bg-gray-900 hover:bg-gradient-to-r hover:from-gray-900 hover:to-gray-800 text-white hover:ring-1 hover:ring-gray-800 transition-all ease-out duration-300"
                         onClick={() => setAddToggle(!addToggle)}
